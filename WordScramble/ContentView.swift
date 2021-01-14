@@ -62,6 +62,16 @@ struct ContentView: View {
             wordError(title: "Word not possible", message: "That isn't a real word.")
             return
         }
+        
+        guard isMinSize(word: answer) else {
+            wordError(title: "Word too small", message: "Word must be at least 3 letters in length.")
+            return
+        }
+        
+        guard isStart(word: answer) else {
+            wordError(title: "Word is Start Word", message: "You are better than this!")
+            return
+        }
         usedWords.insert(answer, at: 0)
         newWord = ""
     }
@@ -104,6 +114,14 @@ struct ContentView: View {
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         
         return misspelledRange.location == NSNotFound
+    }
+    
+    func isMinSize(word: String) -> Bool {
+        word.count > 2
+    }
+    
+    func isStart(word: String) -> Bool {
+        rootWord.lowercased() != word.lowercased()
     }
     
     func wordError(title: String, message: String) {
