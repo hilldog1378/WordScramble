@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var score = 0
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -28,6 +30,7 @@ struct ContentView: View {
                     Image(systemName: "\($0.count).circle")
                     Text($0)
                 }
+                Text("Total Score: \(score)")
             }
             .navigationBarTitle(rootWord)
             .navigationBarItems(leading: Button(action: startGame) {
@@ -77,6 +80,7 @@ struct ContentView: View {
             return
         }
         usedWords.insert(answer, at: 0)
+        score += answer.count
         newWord = ""
     }
     
@@ -87,6 +91,9 @@ struct ContentView: View {
                 
                 rootWord = allWords.randomElement() ?? "silkworm"
                 
+                usedWords.removeAll()
+                
+                score = 0
                 return
             }
         }
